@@ -2,8 +2,8 @@
 
 Automation for abusing an exposed Docker TCP Socket.
 
-This will automatically create a container on the Docker host with the root filesystem mounted,
-allowing arbitrary read and write of the root filesystem (which is bad).
+This will automatically create a container on the Docker host with the host's root filesystem mounted,
+allowing arbitrary read and write of the host filesystem (which is bad).
 
 Once created, the script will empty the password requirement for 'root', and will alter any user
 with a valid Unix password to have a password of 'DockerPwn'

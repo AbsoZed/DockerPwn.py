@@ -1,6 +1,6 @@
 # DockerPwn.py
 
-Exploit for exposed Docker TCP Socket.
+Automation for abusing an exposed Docker TCP Socket.
 
 This will automatically create a container on the Docker host with the root filesystem mounted,
 allowing arbitrary read and write of the root filesystem (which is bad).

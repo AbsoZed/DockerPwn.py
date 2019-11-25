@@ -10,13 +10,13 @@ shadow and useradd are working, with the less destructive method 'useradd' being
 
 ### Methods:
 
-Useradd: Creates a 'DockerPwn' user, and adds them to /etc/sudoers with NOPASSWD. The handler automatically escalates to
+- Useradd: Creates a 'DockerPwn' user, and adds them to /etc/sudoers with NOPASSWD. The handler automatically escalates to
          root using this privilege, and spawns a PTY.
 
-Shadow: Changes root and any valid user passwords to 'DockerPwn' in /etc/shadow, authenticates with Paramiko, 
+- Shadow: Changes root and any valid user passwords to 'DockerPwn' in /etc/shadow, authenticates with Paramiko, 
         and sends a reverse shell. The handler automatically escalates to root utilzing 'su', and spawns a PTY.
 
-Shell I/O is logged for convenience and output to ./DockerPwn.log
+         Shell I/O is logged for convenience and output to ./DockerPwn.log
 
 ## Roadmap:
 

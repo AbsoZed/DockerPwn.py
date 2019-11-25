@@ -23,8 +23,7 @@ All shell I/O is logged to './DockerPwn.log' for all methods.
           a container shell with interactivity to the host filesystem.
 
 ## Roadmap:
-
-- Implement chroot method. 
+ 
 - Get packaged for pip3 installation.
 
 ## Usage:

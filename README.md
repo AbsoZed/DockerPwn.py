@@ -1,5 +1,9 @@
 # DockerPwn.py
 
+!!! CHECK OUT THE WIP BRANCH FOR A MORE MODULAR, PRETTIER, LESS DESTRUCTIVE EXPERIENCE. !!!
+
+DISCLAIMER: I AM NOT RESPONSIBLE FOR YOUR USE OF THIS. USE YOUR HEAD.
+
 Automation for abusing an exposed Docker TCP Socket.
 
 This will automatically create a container on the Docker host with the host's root filesystem mounted,

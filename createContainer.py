@@ -35,7 +35,7 @@ def create(target, port, image):
 
         print("[+] Downloading specified image for a lightweight pwning experience.\n")
 
-        dockerConnection.request('POST', '/images/create?fromImage=alpine&tag=latest')
+        dockerConnection.request('POST', '/images/create?fromImage=' + image + '&tag=latest')
         imageStatus = dockerConnection.getresponse()
 
         if imageStatus.status == 200:
@@ -50,7 +50,7 @@ def create(target, port, image):
 		            sys.stdout.write('\b')
 		            time.sleep(0.2)
         else:
-            print('[-] API refused to download Alpine Linux. Exiting.')
+            print('[-] API refused to download image. Exiting.')
             dockerConnection.close()
             sys.exit(0)
 

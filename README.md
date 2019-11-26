@@ -1,7 +1,6 @@
 # DockerPwn.py
-[![GitHub release](https://img.shields.io/github/v/release/AbsoZed/DockerPwn.py?style=plastic)](https://GitHub.com/AbsoZed/DockerPwn.py/releases/)
+[![GitHub release](https://img.shields.io/github/v/release/AbsoZed/DockerPwn.py)](https://GitHub.com/AbsoZed/DockerPwn.py/releases/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![HitCount](http://hits.dwyl.io/AbsoZed/DockerPwnpy.svg)](http://hits.dwyl.io/AbsoZed/DockerPwnpy) 
 
 
 Automation for abusing an exposed Docker TCP Socket.

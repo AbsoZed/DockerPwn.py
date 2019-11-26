@@ -10,7 +10,7 @@ now working properly, and will return a reverse shell. Chroot is the least disru
 
 ### Methods:
 
-All shell I/O is logged to './DockerPwn.log' for all methods.
+- All shell I/O is logged to './DockerPwn.log' for all methods.
 
 - Useradd: Creates a 'DockerPwn' user, and adds them to /etc/sudoers with NOPASSWD. The handler automatically escalates to
          root using this privilege, and spawns a PTY.
@@ -24,8 +24,7 @@ All shell I/O is logged to './DockerPwn.log' for all methods.
 
 ## Roadmap:
  
-- Get packaged for pip3 installation.
-- SSL Support for :2376, possibly.
+- SSL Support for :2376
 
 ## Usage:
 ```

@@ -41,7 +41,7 @@ def create(target, port, image):
         if imageStatus.status == 200:
             print("[+] Alpine image is downloading to the host. Hope we aren't setting off any alarms. Sleeping for a bit.\n")
             dockerConnection.close()
-            timeout = time.time() + 60*4
+            timeout = time.time() + 1#60*4
             while time.time() < timeout:
 	            cursorWait="\|/-\|/-"
 	            for l in cursorWait:

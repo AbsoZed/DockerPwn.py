@@ -1,0 +1,12 @@
+python3 -c 'import pty; pty.spawn("/bin/bash")'export TERM=screenid; hostname; date]0;root@716d3e450679: /root@716d3e450679:/# python3 -c 'import pty; pty.spawn("/bin/bash")'
+]0;root@716d3e450679: /root@716d3e450679:/# export TERM=screen
+]0;root@716d3e450679: /root@716d3e450679:/# [H[J]0;root@716d3e450679: /root@716d3e450679:/# id; hostname; date
+uid=0(root) gid=0(root) groups=0(root),1(daemon),2(bin),3(sys),4(adm),6(disk),10(uucp),11,20(dialout),26(tape),27(sudo)
+716d3e450679
+Tue Nov 26 01:28:06 UTC 2019
+]0;root@716d3e450679: /root@716d3e450679:/# exit
+exit
+exit
+]0;root@716d3e450679: /root@716d3e450679:/# [Kexit
+exit
+exit

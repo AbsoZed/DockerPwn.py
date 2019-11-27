@@ -11,17 +11,24 @@ allowing arbitrary read and write of the host filesystem (which is bad).
 Once created, the script will employ the method of your choosing for obtaining a root shell. All methods are
 now working properly, and will return a reverse shell. Chroot is the least disruptive, but Useradd is the default.
 
-### Methods:
+## Installation:
+
+It is recommended that you utilize the following for usage as opposed to static releases - Code in this repository may be updated frequently with minor improvements before releases are created.
+
+``` git clone https://github.com/AbsoZed/DockerPwn.py && cd DockerPwn.py ```
+
+
+## Methods:
 
 - All shell I/O is logged to './DockerPwn.log' for all methods.
 
-- Userpwn: Creates a 'DockerPwn' user, and adds them to /etc/sudoers with NOPASSWD. The handler automatically escalates to
+- UserPwn: Creates a 'DockerPwn' user, and adds them to /etc/sudoers with NOPASSWD. The handler automatically escalates to
            root using this privilege, and spawns a PTY.
 
-- Shadowpwn: Changes root and any valid user passwords to 'DockerPwn' in /etc/shadow, authenticates with Paramiko, 
+- ShadowPwn: Changes root and any valid user passwords to 'DockerPwn' in /etc/shadow, authenticates with Paramiko, 
              and sends a reverse shell. The handler automatically escalates to root utilzing 'su', and spawns a PTY.
 
-- Chrootpwn: Creates a shell.sh file which is a reverse shell, hosts on port 80. Downloads to /tmp, 
+- ChrootPwn: Creates a shell.sh file which is a reverse shell, hosts on port 80. Downloads to /tmp, 
              Utilizes chroot in docker container to execute shell in the context of the host, providing 
              a container shell with interactivity to the host filesystem.
 

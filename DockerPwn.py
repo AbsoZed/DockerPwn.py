@@ -53,7 +53,8 @@ def main():
 
     if verFlag == True:
         print(versionInformation)
-
+        sys.exit(0)
+        
     if target is not None and port is not None:
         
         if image is None:

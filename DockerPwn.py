@@ -10,7 +10,21 @@ Once created, the script will employ the method of your choosing for obtaining a
 shadow and useradd are working, with the less destructive method 'userpwn' being default. 
 
 '''
+versionInformation = '''
 
+
+██████╗  ██████╗  ██████╗██╗  ██╗███████╗██████╗ ██████╗ ██╗    ██╗███╗   ██╗
+██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝██╔══██╗██╔══██╗██║    ██║████╗  ██║
+██║  ██║██║   ██║██║     █████╔╝ █████╗  ██████╔╝██████╔╝██║ █╗ ██║██╔██╗ ██║
+██║  ██║██║   ██║██║     ██╔═██╗ ██╔══╝  ██╔══██╗██╔═══╝ ██║███╗██║██║╚██╗██║
+██████╔╝╚██████╔╝╚██████╗██║  ██╗███████╗██║  ██║██║     ╚███╔███╔╝██║ ╚████║
+╚═════╝  ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝      ╚══╝╚══╝ ╚═╝  ╚═══╝
+                                                                             
+Version 1.0 - Revision 1
+
+© Dylan Barker (AbsoZed) 2019, GPLv3
+
+'''
 import argparse
 import sys
 import createContainer
@@ -22,17 +36,23 @@ import shellHandler
 def main():
 
     parser = argparse.ArgumentParser()
+    parser.add_argument("--version", help="Print version information.", action="store_true")
     parser.add_argument("--target", help="IP of Docker Host", type=str)
     parser.add_argument("--port", help="Docker API TCP Port", type=int)
     parser.add_argument("--image", help="Docker image to use. Default is Alpine Linux.", type=str)
     parser.add_argument("--method", help="Method to use. Valid methods are shadowpwn, chrootpwn, userpwn. Default is useradd.", type=str)
     parser.add_argument("--c2", help="Local IP and port in [IP]:[PORT] format to receive the shell.", type=str)
+    
     args = parser.parse_args()
+    verFlag = args.version
     target = args.target
     port = args.port
     image = args.image
     method = args.method
     c2 = args.c2
+
+    if verFlag == True:
+        print(versionInformation)
 
     if target is not None and port is not None:
         

@@ -26,7 +26,7 @@ It is recommended that you utilize the following for usage as opposed to static 
            root using this privilege, and spawns a PTY.
 
 - ShadowPwn: Changes root and any valid user passwords to 'DockerPwn' in /etc/shadow, authenticates with Paramiko, 
-             and sends a reverse shell. The handler automatically escalates to root utilzing 'su', and spawns a PTY.
+             and sends a reverse shell. The handler automatically escalates to root utilizing 'su', and spawns a PTY.
 
 - ChrootPwn: Creates a shell.sh file which is a reverse shell, hosts on port 80. Downloads to /tmp, 
              Utilizes chroot in docker container to execute shell in the context of the host, providing 

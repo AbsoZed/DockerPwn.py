@@ -15,7 +15,7 @@ now working properly, and will return a reverse shell. Chroot is the least disru
 
 It is recommended that you utilize the following for usage as opposed to static releases - Code in this repository may be updated frequently with minor improvements before releases are created.
 
-``` git clone https://github.com/AbsoZed/DockerPwn.py && cd DockerPwn.py ```
+``` git clone https://github.com/AbsoZed/DockerPwn.py && cd DockerPwn.py && pip3 install -r requirements.txt ```
 
 
 ## Methods:
